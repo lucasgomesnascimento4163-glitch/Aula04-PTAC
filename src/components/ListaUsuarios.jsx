@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+<<<<<<< HEAD
 
 async function atualizarUsuario(id, novosDados) {
   const resp = await fetch(`https://typicode.com{id}`, {
@@ -16,6 +17,18 @@ async function excluirUsuario(id) {
   })
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
   return true
+=======
+import { apiGet, apiPut, apiDelete } from '../api'
+
+const atualizarUsuario = (id, novosDados) => apiPut(`/users/${id}`, novosDados)
+const excluirUsuario = (id) => apiDelete(`/users/${id}`)
+
+function mensagemDeErro(e) {
+  if (e.name === 'ApiError' && e.status === 404) return 'Recurso não encontrado.'
+  if (e.name === 'ApiError' && e.status >= 500) return 'Erro no servidor. Tente de novo em instantes.'
+  if (e instanceof TypeError) return 'Falha de rede.'
+  return e.message
+>>>>>>> d7efe4a (Atividade)
 }
 
 export default function ListaUsuarios() {
@@ -32,6 +45,7 @@ export default function ListaUsuarios() {
       try {
         setCarregando(true)
         setErro(null)
+<<<<<<< HEAD
         const resp = await fetch('https://jsonplaceholder.typicode.com/users', { signal })
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
         const data = await resp.json()
@@ -39,6 +53,13 @@ export default function ListaUsuarios() {
       } catch (e) {
         if (e.name !== 'AbortError') {
           setErro(e.message)
+=======
+        const data = await apiGet('/users', { signal })
+        setUsuarios(data)
+      } catch (e) {
+        if (e.name !== 'AbortError') {
+          setErro(mensagemDeErro(e))
+>>>>>>> d7efe4a (Atividade)
         }
       } finally {
         setCarregando(false)
@@ -58,7 +79,11 @@ export default function ListaUsuarios() {
       console.log(`Usuário ${id} excluído.`)
     } catch (e) {
       setUsuarios(prev)
+<<<<<<< HEAD
       setErro(e.message)
+=======
+      setErro(mensagemDeErro(e))
+>>>>>>> d7efe4a (Atividade)
     }
   }
 
@@ -78,7 +103,11 @@ export default function ListaUsuarios() {
       setUsuarios(prev => prev.map(u => u.id === editado.id ? editado : u))
     } catch (e) {
       setUsuarios(prev)
+<<<<<<< HEAD
       setErro(e.message)
+=======
+      setErro(mensagemDeErro(e))
+>>>>>>> d7efe4a (Atividade)
     }
   }
 
